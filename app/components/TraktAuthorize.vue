@@ -7,7 +7,7 @@
 </template>
 
 <script>
-    import AppInit from "./components/AppInit";
+    import AppInit from "./AppInit";
     var utilsModule = require("tns-core-modules/utils/utils");
     const application = require("tns-core-modules/application");
 
