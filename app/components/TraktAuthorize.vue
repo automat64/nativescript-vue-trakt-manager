@@ -8,6 +8,7 @@
 
 <script>
     import AppInit from "./AppInit";
+    import Home from "./Home";
     var utilsModule = require("tns-core-modules/utils/utils");
     const application = require("tns-core-modules/application");
 

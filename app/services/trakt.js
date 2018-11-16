@@ -42,6 +42,7 @@ export default class Trakt {
             localStorage.setItem('refresh_token', response['data']['refresh_token']);
             that.traktAccessToken = localStorage.getItem('access_token');
             that.traktRefreshToken = localStorage.getItem('refresh_token');
+            that.axiosTrakt.defaults.headers['Authorization'] = 'Bearer '+ that.traktAccessToken;
             return true;
         })
         .catch(function (error) {
@@ -314,7 +315,7 @@ export default class Trakt {
             data: {       
             }
         }).then(function (response) {
-            return response;
+            return response.data;
         })
         .catch(function (error) {
             console.log(error);

@@ -1,5 +1,5 @@
 <template>
-    <DockLayout  backgroundColor="#eee">
+    <DockLayout  backgroundColor="#222">
         <TextView editable="false" :text="show.overview" />
     </DockLayout >
 </template>

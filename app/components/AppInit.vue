@@ -39,10 +39,12 @@
         },
         mounted: function () {
            // this.$navigateTo(Home);
+            require( "nativescript-localstorage" );
+            localStorage.clear();
             let that = this;
             console.log("app init template loaded");  
             this.appStatus = "Checking refresh token";
-            if (this.$store.state.services.trakt.traktRefreshToken==null) {
+            if (this.$store.state.services.trakt.traktRefreshToken==null || this.$store.state.services.trakt.traktRefreshToken=='') {
                 this.appStatus = "Refresh token not found, redirecting.";
                 setTimeout(function(){ that.$navigateTo(TraktAuthorize) }, 300);
             }
@@ -50,14 +52,8 @@
                 this.appStatus = "Refresh token found. Refreshing...";
                 this.$store.state.services.trakt.refresh().then(function () {
                     that.appStatus = "Token refreshed, moving on..";
-                    setTimeout(function(){ that.$navigateTo(ShowList) }, 200);
-                    // that.$notify({
-                    //     group: 'notifications',
-                    //     type: 'success',
-                    //     title: 'Trakt authorization successful',
-                        
-                    // });
-                    // that.$root.router.push("/shows");
+                    setTimeout(function(){ that.$navigateTo(Home) }, 200);
+
                 })
                 .catch(function (error) {
                     console.log(error);

@@ -1,25 +1,26 @@
 <template>
-    <Page>
+    <!-- <Page>
         <ActionBar>
             <GridLayout width="100%" columns="auto, *">
                 <Label class="title" :text="message"  col="1"/>
             </GridLayout>
-        </ActionBar>
+        </ActionBar> -->
 
         <StackLayout backgroundColor="#3c495e" height="100%">
-            <ListView for="item in this.$store.state.lists.traktLists['trendingList']" height="100%">
+            <ListView for="item in traktList" height="100%">
                 <v-template>
                     <TraktShowNS :show="item"></TraktShowNS>
                 </v-template>
             </ListView>
         </StackLayout>
-    </Page>
+    <!-- </Page> -->
 </template>
 
 <script>
     import TraktShowNS from './TraktShowNS.vue';
 
   export default {
+    props: ['traktList'],
     data() {
       return {
         msg: 'Hello World!',
@@ -30,9 +31,6 @@
         message() {
             return this.$store.state.tabs.currentPage;
         },
-        // showList() {
-        //     return this.$store.state.lists.traktLists['trendingList'];
-        // },
     },
     methods:  {
         onItemTap () {
@@ -40,16 +38,13 @@
         }
     },
     mounted: function () {
-        let that = this;
-        this.$store.state.services.trakt.traktList('trending').then( function (response) {
-            that.$store.commit('lists/updateList',['trendingList',response]);
-            //that.myList = that.$store.state.lists.traktLists['trendingList'];
-
-        })
-        .catch(function (error) {
-            console.log(error);
-            // _this.initApp();
-        });
+        // let that = this;
+        // this.$store.state.services.trakt.traktList('trending').then( function (response) {
+        //     that.$store.commit('lists/updateList',['trendingList',response]);
+        // })
+        // .catch(function (error) {
+        //     console.log(error);
+        // });
     },
     components: {
         TraktShowNS

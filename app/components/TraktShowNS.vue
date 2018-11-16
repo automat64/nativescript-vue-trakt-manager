@@ -43,8 +43,6 @@
         },
         methods: {
             showDetails () {
-                console.log(this.show.trailer);
-                console.log(this.$store.state.services.fanart);
                 this.$showModal(ShowDetailsNS, {
                     props: {
                         show: this.show,
@@ -52,27 +50,12 @@
                 });
             },
             goToImdb () {
-                console.log(this.show.trailer);
                 utilsModule.openUrl(this.imdb_link);
             },
             goToTrailer () {
-                console.log(this.show.trailer);
                 utilsModule.openUrl(this.show.trailer);
             },
         },
-        // mounted: function () {
-            
-        // },
-        // methods: {
-        //     listMenu: function (e) {
-        //         this.$refs.menu.clickMenu(e);
-                
-        //     },
-        //     openModal: function (e) {
-        //         this.$refs.details.openModal(e);
-                
-        //     },
-        // },
         components: {
             ShowDetailsNS
         },

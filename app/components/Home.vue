@@ -18,24 +18,23 @@
             </StackLayout>
 
             <GridLayout ~mainContent columns="*" rows="*">
-                <!-- <Label class="message" :text="msg" col="0" row="0"/> -->
                 <TabView android:tabBackgroundColor="#53ba82"
                         android:tabTextColor="#c4ffdf"
                         android:selectedTabTextColor="#ffffff"
                         androidSelectedTabHighlightColor="#ffffff">
-                    <TabViewItem title="Tab 1">
+                    <TabViewItem title="Trending">
                         <GridLayout columns="*" rows="*">
-                            <Label class="message" :text="msg" col="0" row="0"/>
+                            <ShowList v-bind:traktList="this.$store.state.lists.traktLists['trendingList']"></ShowList>
                         </GridLayout>
                     </TabViewItem>
-                    <TabViewItem title="Tab 2">
+                    <TabViewItem title="Popular">
                         <GridLayout columns="*" rows="*">
-                            <Label class="message" text="Tab 2 Content" col="0" row="0"/>
+                            <ShowList v-bind:traktList="this.$store.state.lists.traktLists['popularList']"></ShowList>
                         </GridLayout>
                     </TabViewItem>
-                    <TabViewItem title="Tab 3">
+                    <TabViewItem title="Recommended">
                         <GridLayout columns="*" rows="*">
-                            <Label class="message" text="Tab 3 Content" col="0" row="0"/>
+                            <ShowList v-bind:traktList="this.$store.state.lists.traktLists['recommendedList']"></ShowList>
                         </GridLayout>
                     </TabViewItem>
                 </TabView>
@@ -45,13 +44,38 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        msg: 'Hello World!'
-      }
+    import ShowList from './ShowList.vue';
+    export default {
+        data() {
+            return {
+                msg: 'Hello World!'
+            }
+        },
+        mounted: function () {
+            let that = this;
+            this.$store.state.services.trakt.traktList('trending').then( function (response) {
+                that.$store.commit('lists/updateList',['trendingList',response]);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+            this.$store.state.services.trakt.traktList('popular').then( function (response) {
+                that.$store.commit('lists/updateList',['popularList',response]);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+            this.$store.state.services.trakt.recommendations().then( function (response) {
+                that.$store.commit('lists/updateList',['recommendedList',response]);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        },
+        components: {
+            ShowList
+        }
     }
-  }
 </script>
 
 <style scoped>
