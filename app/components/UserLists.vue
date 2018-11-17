@@ -3,7 +3,7 @@
         <ActionBar>
             <GridLayout width="100%" columns="auto, *">
                 <Label text="MENU" @tap="$refs.drawer.nativeView.showDrawer()" col="0"/>
-                <Label class="title" text="Trakt lists"  col="1"/>
+                <Label class="title" text="User lists"  col="1"/>
             </GridLayout>
             
         </ActionBar>
@@ -12,8 +12,8 @@
             <StackLayout ~drawerContent backgroundColor="#ffffff">
                 <Label class="drawer-header" text="Drawer"/>
 
-                <Label class="drawer-item" text="Trakt lists"/>
-                <Label class="drawer-item" text="User Lists"  @tap="gotoUserLists()"/>
+                <Label class="drawer-item" text="Trakt lists"  @tap="gotoTraktLists()"/>
+                <Label class="drawer-item" text="User Lists"/>
                 <Label class="drawer-item" text="Progress"/>
                 <Label class="drawer-item" text="Calendar"/>
                 <Label class="drawer-item" text="Search"/>
@@ -25,14 +25,11 @@
                         android:tabTextColor="#c4ffdf"
                         android:selectedTabTextColor="#ffffff"
                         androidSelectedTabHighlightColor="#ffffff">
-                    <TabViewItem title="Trending">
-                        <ShowList v-bind:traktList="this.$store.state.lists.traktLists['trendingList']"></ShowList>
+                    <TabViewItem title="Collection">
+                        <ShowList v-bind:traktList="this.$store.state.lists.traktLists['collectionList']"></ShowList>
                     </TabViewItem>
-                    <TabViewItem title="Popular">
-                        <ShowList v-bind:traktList="this.$store.state.lists.traktLists['popularList']"></ShowList>
-                    </TabViewItem>
-                    <TabViewItem title="Recommended">
-                        <ShowList v-bind:traktList="this.$store.state.lists.traktLists['recommendedList']"></ShowList>
+                    <TabViewItem title="Watchlist">
+                        <ShowList v-bind:traktList="this.$store.state.lists.traktLists['watchList']"></ShowList>
                     </TabViewItem>
                 </TabView>
             </GridLayout>
@@ -41,8 +38,8 @@
 </template>
 
 <script>
+    import Home from '@/components/Home';
     import ShowList from './ShowList.vue';
-    import UserLists from '@/components/UserLists';
     const application = require("tns-core-modules/application");
     
     export default {
@@ -64,35 +61,28 @@
         methods: {
             getTraktLists: function() {
                 let that = this;
-                if (this.$store.state.lists.traktLists['trendingList'].length==0) {
-                    this.$store.state.services.trakt.traktList('trending').then( function (response) {
-                        that.$store.commit('lists/updateList',['trendingList',response]);
+
+                if (this.$store.state.lists.traktLists['collectionList'].length==0) {
+                    this.$store.state.services.trakt.userList('collection').then( function (response) {
+                        that.$store.commit('lists/updateList',['collectionList',response]);
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
                 }
 
-                if (this.$store.state.lists.traktLists['popularList'].length==0) {
-                    this.$store.state.services.trakt.traktList('popular').then( function (response) {
-                        that.$store.commit('lists/updateList',['popularList',response]);
+                if (this.$store.state.lists.traktLists['watchList'].length==0) {
+                    this.$store.state.services.trakt.userList('watchlist').then( function (response) {
+                        that.$store.commit('lists/updateList',['watchList',response]);
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
                 }
-
-                if (this.$store.state.lists.traktLists['recommendedList'].length==0) {
-                    this.$store.state.services.trakt.recommendations().then( function (response) {
-                        that.$store.commit('lists/updateList',['recommendedList',response]);
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-                }
+        
             },
-            gotoUserLists: function() {
-                this.$navigateTo(UserLists);
+            gotoTraktLists: function() {
+                this.$navigateTo(Home);
             }
         },
         components: {

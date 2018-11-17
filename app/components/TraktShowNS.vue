@@ -12,7 +12,6 @@
     // import ListMenu from './ListMenu.vue';
     import ShowDetailsNS from './ShowDetailsNS.vue';
 
-    import Fanart from "../services/fanart.js";
     var utilsModule = require("tns-core-modules/utils/utils");
 
     export default {
@@ -22,27 +21,25 @@
             return {
               photo:'',
               imdb_link:'#',
+              component_show:this.show,
             };
         },
+        watch: {
+            show: {
+                // the callback will be called immediately after the start of the observation
+                immediate: true, 
+                handler (val, oldVal) {
+                    this.photo="";
+                    this.getDetails();
+                }
+            }
+        },
         mounted: function () {
-            let that = this;
-            const fanart = new Fanart();
-            this.imdb_link="http://www.imdb.com/title/"+this.show.ids.imdb+"/"; 
-            
-            this.$store.state.services.fanart.query(this.show.ids.tvdb).then(function (response) {
-                that.photo=response.data.hdtvlogo[0].url;
-                that.show.photo = that.photo;
-                console.log(that.show.photo);
-                if (response.data.tvposter) that.show.poster = response.data.tvposter[0].url;
-                if (response.data.showbackground) that.show.background = response.data.showbackground[0].url;
-            }).catch(function (error) {
-                console.log(error);
-                that.photo="/no-banner.png";
-                that.show.photo = that.photo;
-            });
+            //this.getDetails();
         },
         methods: {
             showDetails () {
+                console.log(this.$store.state.lists.photoLists['hdtvList'][this.show.ids.tvdb]);
                 this.$showModal(ShowDetailsNS, {
                     props: {
                         show: this.show,
@@ -55,6 +52,31 @@
             goToTrailer () {
                 utilsModule.openUrl(this.show.trailer);
             },
+            getDetails () {
+                let that = this;
+                this.imdb_link="http://www.imdb.com/title/"+this.show.ids.imdb+"/"; 
+                console.log("running mounted for "+that.show.title);  
+                if (this.$store.state.lists.photoLists['hdtvList'][this.show.ids.tvdb]!=undefined) {
+                    that.photo=this.$store.state.lists.photoLists['hdtvList'][this.show.ids.tvdb];
+                    console.log("photo exists in state");
+                } else {
+                    this.$store.state.services.fanart.query(this.show.ids.tvdb).then(function (response) {
+                        console.log("running fanart for "+that.show.title);
+                        that.photo=response.data.hdtvlogo[0].url;
+                        that.show.photo = that.photo;
+                        console.log(that.show.photo);
+                        if (response.data.tvposter) that.show.poster = response.data.tvposter[0].url;
+                        if (response.data.showbackground) that.show.background = response.data.showbackground[0].url;
+                          
+                        that.$store.commit('lists/updatePhoto',[that.show.ids.tvdb,response.data.hdtvlogo[0].url]);
+
+                    }).catch(function (error) {
+                        console.log(error);
+                        that.photo="/no-banner.png";
+                        that.show.photo = that.photo;
+                    });
+                }
+            }
         },
         components: {
             ShowDetailsNS

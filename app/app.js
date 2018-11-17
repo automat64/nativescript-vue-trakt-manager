@@ -4,14 +4,17 @@ import TraktAuthorize from "./components/TraktAuthorize";
 import Home from "./components/Home";
 import VueDevtools from 'nativescript-vue-devtools';
 import store from './store'
+import RadListView from 'nativescript-ui-listview/vue';
+import RadSideDrawer from 'nativescript-ui-sidedrawer/vue';
 
-Vue.config.silent = false;
+Vue.config.silent = true;
 
 //Vue.use(VueDevtools, { host: '192.168.1.2' })
-Vue.use(VueDevtools)
-
-
-Vue.registerElement('RadSideDrawer', () => require('nativescript-ui-sidedrawer').RadSideDrawer)
+Vue.use(VueDevtools);
+Vue.use(RadListView);
+Vue.use(RadSideDrawer);
+// Vue.registerElement('RadSideDrawer', () => require('nativescript-ui-sidedrawer').RadSideDrawer)
+// Vue.registerElement('RadListView', () => require('nativescript-ui-listview').RadListView)
 
 new Vue({
     store,
