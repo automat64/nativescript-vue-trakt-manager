@@ -11,17 +11,23 @@
         <RadSideDrawer ref="drawer">
             <SideDrawer></SideDrawer>
             <GridLayout ~mainContent columns="*" rows="*">
-                <FlexboxLayout backgroundColor="#3c495e">
+                <FlexboxLayout backgroundColor="#3c495e"  class="p-30">
                     <Image :src="photo" stretch="none" />
-                    <Label textWrap="true">
-                    <FormattedString>
+                    <Label textWrap="true"  class="trakt_user">
+                    <FormattedString >
                         <Span fontWeight="bold" :text="name" />
+                        <Span text=" (" />
                         <Span :text="username" fontStyle="italic" />
-                        
+                        <Span text=") " />    
                     </FormattedString>
                     </Label>
+                    <StackLayout>
+                        <Button class="btn btn-primary btn-active" id="button" text="Tap me!"></Button>
+                    </StackLayout>
                 </FlexboxLayout>
+                
             </GridLayout>
+            
         </RadSideDrawer>
     </Page>
 </template>
@@ -64,4 +70,9 @@
 </script>
 
 <style lang="scss">
+.trakt_user {
+    color:#fff;
+    margin:85px;
+    font-size: 18px;
+}
 </style>
