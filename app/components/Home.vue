@@ -9,17 +9,8 @@
         </ActionBar>
         
         <RadSideDrawer ref="drawer">
-            <StackLayout ~drawerContent backgroundColor="#ffffff">
-                <Label class="drawer-header" text="Drawer"/>
-
-                <Label class="drawer-item" text="Trakt lists"/>
-                <Label class="drawer-item" text="User Lists"  @tap="gotoUserLists()"/>
-                <Label class="drawer-item" text="Progress"/>
-                <Label class="drawer-item" text="Calendar"/>
-                <Label class="drawer-item" text="Search"/>
-                <Label class="drawer-item" text="Settings"/>
-            </StackLayout>
-
+            <SideDrawer></SideDrawer>
+            
             <GridLayout ~mainContent columns="*" rows="*">
                 <TabView android:tabBackgroundColor="#53ba82"
                         android:tabTextColor="#c4ffdf"
@@ -41,8 +32,8 @@
 </template>
 
 <script>
-    import ShowList from './ShowList.vue';
-    import UserLists from '@/components/UserLists';
+    import ShowList from '@/components/ShowList';
+    import SideDrawer from '@/components/SideDrawer';
     const application = require("tns-core-modules/application");
     
     export default {
@@ -90,46 +81,15 @@
                         console.log(error);
                     });
                 }
-            },
-            gotoUserLists: function() {
-                this.$navigateTo(UserLists);
             }
+            
         },
         components: {
-            ShowList
+            ShowList,SideDrawer
         }
     }
 </script>
 
 <style scoped>
-    ActionBar {
-        background-color: #53ba82;
-        color: #ffffff;
-    }
-
-    .title {
-        text-align: left;
-        padding-left: 16;
-    }
-
-    .message {
-        vertical-align: center;
-        text-align: center;
-        font-size: 20;
-        color: #333333;
-    }
-
-    .drawer-header {
-        padding: 50 16 16 16;
-        margin-bottom: 16;
-        background-color: #53ba82;
-        color: #ffffff;
-        font-size: 24;
-    }
-
-    .drawer-item {
-        padding: 8 16;
-        color: #333333;
-        font-size: 16;
-    }
+    
 </style>

@@ -39,7 +39,7 @@
         },
         methods: {
             showDetails () {
-                console.log(this.$store.state.lists.photoLists['hdtvList'][this.show.ids.tvdb]);
+                //console.log(this.$store.state.lists.photoLists['hdtvList'][this.show.ids.tvdb]);
                 this.$showModal(ShowDetailsNS, {
                     props: {
                         show: this.show,
@@ -55,16 +55,16 @@
             getDetails () {
                 let that = this;
                 this.imdb_link="http://www.imdb.com/title/"+this.show.ids.imdb+"/"; 
-                console.log("running mounted for "+that.show.title);  
+                //console.log("running mounted for "+that.show.title);  
                 if (this.$store.state.lists.photoLists['hdtvList'][this.show.ids.tvdb]!=undefined) {
                     that.photo=this.$store.state.lists.photoLists['hdtvList'][this.show.ids.tvdb];
-                    console.log("photo exists in state");
+                    //console.log("photo exists in state");
                 } else {
                     this.$store.state.services.fanart.query(this.show.ids.tvdb).then(function (response) {
-                        console.log("running fanart for "+that.show.title);
+                        //console.log("running fanart for "+that.show.title);
                         that.photo=response.data.hdtvlogo[0].url;
                         that.show.photo = that.photo;
-                        console.log(that.show.photo);
+                        //console.log(that.show.photo);
                         if (response.data.tvposter) that.show.poster = response.data.tvposter[0].url;
                         if (response.data.showbackground) that.show.background = response.data.showbackground[0].url;
                           

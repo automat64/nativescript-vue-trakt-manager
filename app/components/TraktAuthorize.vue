@@ -7,8 +7,7 @@
 </template>
 
 <script>
-    import AppInit from "./AppInit";
-    import Home from "./Home";
+    
     var utilsModule = require("tns-core-modules/utils/utils");
     const application = require("tns-core-modules/application");
 
@@ -47,17 +46,14 @@
                 if (params.code) {
                     that.$store.state.services.trakt.authorize(params.code).then(function () {
                         console.log("authorized");
-                        setTimeout(function(){ that.$navigateTo(AppInit) }, 200);
-                       // that.$root.router.push("/");
+                        setTimeout(function(){ that.$navigateTo(that.$routes.AppInit) }, 200);
                     }).catch(function (error) {
                         console.log(error);
-                        //that.$root.router.push("/authorize");
                     });
                 }
             });
             console.log ("Trakt Code: "+code);
-            
-
+        
         },
     }
 </script>
