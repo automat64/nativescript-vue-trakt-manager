@@ -52,9 +52,7 @@
             }
         },
 
-        created: function () {
-            require( "nativescript-localstorage" );
-            localStorage.clear();          
+        created: function () {      
             console.log("app init template loaded");  
         },
     }

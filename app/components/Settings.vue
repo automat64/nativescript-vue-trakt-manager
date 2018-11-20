@@ -3,15 +3,15 @@
         <ActionBar>
             <GridLayout width="100%" columns="auto, *">
                 <Label text="MENU" @tap="$refs.drawer.nativeView.showDrawer()" col="0"/>
-                <Label class="title" text="Trakt lists"  col="1"/>
+                <Label class="title" text="Settings"  col="1"/>
             </GridLayout>
             
         </ActionBar>
         
         <RadSideDrawer ref="drawer">
             <SideDrawer></SideDrawer>
-            <GridLayout ~mainContent columns="*" rows="*">
-                <FlexboxLayout backgroundColor="#3c495e"  class="p-30">
+            <StackLayout ~mainContent columns="*" rows="*" backgroundColor="#3c495e">
+                <FlexboxLayout class="p-30">
                     <Image :src="photo" stretch="none" />
                     <Label textWrap="true"  class="trakt_user">
                     <FormattedString >
@@ -21,12 +21,13 @@
                         <Span text=") " />    
                     </FormattedString>
                     </Label>
-                    <StackLayout>
-                        <Button class="btn btn-primary btn-active" id="button" text="Tap me!"></Button>
-                    </StackLayout>
+                    
                 </FlexboxLayout>
-                
-            </GridLayout>
+                <StackLayout>
+                    <Button class="btn btn-primary btn-active" id="button" text="Deauthorize Trakt" @tap="deauthorizeTrakt"></Button>
+                    <Button class="btn btn-primary btn-active" id="button" text="Clear Storage" @tap="clearStorage"></Button>
+                </StackLayout>
+            </StackLayout>
             
         </RadSideDrawer>
     </Page>
@@ -58,10 +59,17 @@
         methods: {
             deauthorizeTrakt: function () {
                 let that = this;
-                this.$root.trakt.deauthorize().then(function () {
-                   //that.$root.router.push("/");
+                this.$store.state.services.trakt.deauthorize().then(function () {
+                    console.log("deauthorized");
+                    that.$navigateTo(that.$routes.AppInit);
                 })
             },
+            clearStorage: function () {
+                require( "nativescript-localstorage" );
+                localStorage.clear();    
+                console.log("cleared storage");
+            }
+
         },
         components: {
             SideDrawer

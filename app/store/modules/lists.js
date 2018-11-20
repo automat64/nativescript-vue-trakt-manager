@@ -26,7 +26,6 @@ const mutations = {
     updatePhoto (state, newData) {
         console.log("updated list for "+newData[0]+" with "+newData[1])
         state.photoLists['hdtvList'][newData[0]]=newData[1];
-        debugger;
     },
 }
 
