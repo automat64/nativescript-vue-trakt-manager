@@ -40,7 +40,7 @@
         methods: {
             showDetails () {
                 //console.log(this.$store.state.lists.photoLists['hdtvList'][this.show.ids.tvdb]);
-                this.$showModal(ShowDetailsNS, {
+                this.$navigateTo(ShowDetailsNS, {
                     props: {
                         show: this.show,
                     }
