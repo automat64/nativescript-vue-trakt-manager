@@ -1,20 +1,18 @@
 <template>
     <Page>
-        <ActionBar>
-            <GridLayout width="100%" columns="auto, *">
-                <ActionItem android.position="actionBar" text="Go back" android.systemIcon="ic_menu_back" @tap="goBack" />
-                <Label :text="show.title" fontSize="24" verticalAlignment="center" />
-            </GridLayout>
-        </ActionBar>
+        
+            <ActionBar :title="show.title" flat="true">
+                <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" @tap="$navigateBack"/>
+                <ActionItem @tap="openMenu" android.systemIcon="ic_menu_moreoverflow_normal_holo_light" android.position="actionBar" />
+            </ActionBar>
         <DockLayout  backgroundColor="#eee">
-            <ActionItem  text="Go back" android.systemIcon="ic_menu_back" @tap="goBack" />
             <TextView editable="false" :text="show.overview" />
         </DockLayout >
     </Page>
 </template>
 
 <script>
-
+    import ListMenu from "./ListMenu.vue"
     export default {
         name: 'ShowDetails',
         props: ['show','photo'],
@@ -33,8 +31,9 @@
             closeModal: function () {
                 this.viewDetails = false;
             },
-            goBack: function () {
-                
+            openMenu: function () {
+                console.log("saf");
+                this.$showModal(ListMenu, { props: { show: this.show }});
             }
         },
         computed: {
@@ -45,6 +44,9 @@
                     'opacity' :'1'
                 }
             }
+        },
+        components: {
+            ListMenu
         }
     }
 </script>

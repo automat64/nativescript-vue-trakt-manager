@@ -1,13 +1,18 @@
 <template>
-    <ul id="right-click-menu" tabindex="-1" v-if="viewMenu" v-on:blur="closeMenu"  v-bind:style="{top:top, left:left}">
-        <li v-if="inWatchlist == false"><a v-on:click="addToWatchlist">Add to Watchlist</a></li>
-        <li v-if="inWatchlist == true"><a v-on:click="removeFromWatchlist">Remove from Watchlist</a></li>
-        <li v-if="inCollection == false"><a v-on:click="addToCollection">Add to Collection</a></li>
-        <li v-if="inCollection == true"><a v-on:click="removeFromCollection">Remove from Collection</a></li>
-    </ul>
+    <!-- <ul id="right-click-menu" tabindex="-1" v-if="viewMenu" v-on:blur="closeMenu"  v-bind:style="{top:top, left:left}"> -->
+    <Page>
+        <StackLayout>
+            <Button v-if="inWatchlist == false"  @tap="addToWatchlist" text="Add to Watchlist"/>
+            <Button v-if="inWatchlist == true"  @tap="removeFromWatchlist" text="Remove from Watchlist"/>
+            <Button v-if="inCollection == false"  @tap="addToCollection" text="Add to Collection"/>
+            <Button v-if="inCollection == true"  @tap="removeFromCollection" text="Remove from Collection"/>
+            <Button @tap="$modal.close" text="close me"/>
+        </StackLayout>
+    </Page>
 </template>
 
 <script>
+    
 
    export default {
         name: 'ListMenu',
@@ -29,60 +34,62 @@
             }
         },
         created: function () {
-
+            console.log(this.show);
+            
         },
         methods: {
-            setMenu: function(top, left) {
-                this.top = top  + 'px';
-                this.left = left + 30 + 'px';
-                if (left>(window.innerWidth-150)) this.left = left - 260 + 'px';
-            },
-            closeMenu: function() {
-                this.viewMenu = false;  
-            },
-            clickMenu: function(e) {
+            // setMenu: function(top, left) {
+            //     this.top = top  + 'px';
+            //     this.left = left + 30 + 'px';
+            //     if (left>(window.innerWidth-150)) this.left = left - 260 + 'px';
+            // },
+            // closeMenu: function() {
+            //     this.viewMenu = false;  
+            // },
+            // clickMenu: function(e) {
 
-                (this.viewMenu ? this.closeMenu() : this.openMenu(e));        
-            },
-            openMenu: function(e) {
-                let that=this;
-                setTimeout(function(){ 
-                    let bounds = e.target.getBoundingClientRect()
-                    that.viewMenu = true;
+            //     (this.viewMenu ? this.closeMenu() : this.openMenu(e));        
+            // },
+            // openMenu: function(e) {
+            //     let that=this;
+            //     setTimeout(function(){ 
+            //         let bounds = e.target.getBoundingClientRect()
+            //         that.viewMenu = true;
 
-                    that.setMenu(bounds.top, bounds.left,)
-                }, 20);
+            //         that.setMenu(bounds.top, bounds.left,)
+            //     }, 20);
                 
-                e.preventDefault();
-            },
+            //     e.preventDefault();
+            // },
             addToWatchlist: function () {
                 let that=this;
-
-                this.$root.trakt.addToWatchlist(this.show).then(function (response) {
+                
+                this.$store.state.services.trakt.addToWatchlist(this.show).then(function (response) {
                     if (response) {
-                        that.$notify({
-                            group: 'notifications',
-                            type: 'success',
-                            title: 'Trakt Watchlist',
-                            text: 'Item added succesfully'
-                        });
                         that.$store.commit('lists/insertItem',['watchList',that.show]);
-                    }
-                    else {
-                        that.$notify({
-                            group: 'notifications',
-                            type: 'information',
-                            title: 'Trakt Watchlist',
-                            text: 'Item already exists in Watchlist'
+                        
+                        that.$feedback.success({
+                            title: "Trakt Watchlist",
+                            message: "Item added succesfully",
+                            duration: 1000,
                         });
+                        that.$modal.close();
+                    }
+                    else {  
+                        that.$feedback.error({
+                            title: "Trakt Watchlist",
+                            message: "Item already exists in Watchlist",
+                            duration: 1000,
+                        });
+                        that.$modal.close();
                     }
                 }).catch(function () {
-                    that.$notify({
-                        group: 'notifications',
-                        type: 'error',
-                        title: 'Trakt error',
-                        text: 'Could not complete action'
+                   that.$feedback.error({
+                        title: "Trakt error",
+                        message: "Could not complete action",
+                        duration: 1000,
                     });
+                    that.$modal.close();
                 });
 
                 this.viewMenu = false; 
@@ -90,31 +97,33 @@
             removeFromWatchlist: function () {
                 let that=this;
 
-                this.$root.trakt.removeFromWatchlist(this.show).then(function (response) {
+                this.$store.state.services.trakt.removeFromWatchlist(this.show).then(function (response) {
                     if (response) {
                         that.$store.commit('lists/removeItem',['watchList',that.show]);
-                        that.$notify({
-                            group: 'notifications',
-                            type: 'success',
-                            title: 'Trakt Watchlist',
-                            text: 'Item removed succesfully'
+
+                        that.$feedback.success({
+                            title: "Trakt Watchlist",
+                            message: "Item removed succesfully",
+                            duration: 1000,
                         });
+                        that.$modal.close();
+
                     }
                     else {
-                        that.$notify({
-                            group: 'notifications',
-                            type: 'information',
-                            title: 'Trakt Watchlist',
-                            text: 'Item does not exist in Watchlist'
+                        that.$feedback.error({
+                            title: "Trakt Watchlist",
+                            message: "Item does not exist in Watchlist",
+                            duration: 1000,
                         });
+                        that.$modal.close();
                     }
                 }).catch(function () {
-                    that.$notify({
-                        group: 'notifications',
-                        type: 'error',
-                        title: 'Trakt error',
-                        text: 'Could not complete action'
+                    that.$feedback.error({
+                        title: "Trakt error",
+                        message: "Could not complete action",
+                        duration: 1000,
                     });
+                    that.$modal.close();
                 });
 
                 this.viewMenu = false; 
@@ -122,31 +131,31 @@
             addToCollection: function () {
                 let that=this;
 
-                this.$root.trakt.addToCollection(this.show).then(function (response) {
+                this.$store.state.services.trakt.addToCollection(this.show).then(function (response) {
                     if (response) {
                         that.$store.commit('lists/insertItem',['collectionList',that.show]);
-                        that.$notify({
-                            group: 'notifications',
-                            type: 'success',
-                            title: 'Trakt Collection',
-                            text: 'Item added succesfully'
+                        that.$feedback.success({
+                            title: "Trakt Collection",
+                            message: "Item added succesfully",
+                            duration: 1000,
                         });
+                        that.$modal.close();
                     }
                     else {
-                        that.$notify({
-                            group: 'notifications',
-                            type: 'information',
-                            title: 'Trakt Collection',
-                            text: 'Item already exists in Collection'
+                        that.$feedback.error({
+                            title: "Trakt Collection",
+                            message: "Item already exists in Collection",
+                            duration: 1000,
                         });
+                        that.$modal.close();
                     }
                 }).catch(function () {
-                    that.$notify({
-                        group: 'notifications',
-                        type: 'error',
-                        title: 'Trakt error',
-                        text: 'Could not complete action'
+                    that.$feedback.error({
+                        title: "Trakt error",
+                        message: "Could not complete action",
+                        duration: 1000,
                     });
+                    that.$modal.close();
                 });
 
                 this.viewMenu = false; 
@@ -154,31 +163,31 @@
             removeFromCollection: function () {
                 let that=this;
 
-                this.$root.trakt.removeFromCollection(this.show).then(function (response) {
+                this.$store.state.services.trakt.removeFromCollection(this.show).then(function (response) {
                     if (response) {
                         that.$store.commit('lists/removeItem',['collectionList',that.show]);
-                        that.$notify({
-                            group: 'notifications',
-                            type: 'success',
-                            title: 'Trakt Collection',
-                            text: 'Item removed succesfully'
+                        that.$feedback.success({
+                            title: "Trakt Collection",
+                            message: "Item removed succesfully",
+                            duration: 1000,
                         });
+                        that.$modal.close();
                     }
                     else {
-                        that.$notify({
-                            group: 'notifications',
-                            type: 'information',
-                            title: 'Trakt Collection',
-                            text: 'Item does not exist in Collection'
+                        that.$feedback.error({
+                            title: "Trakt Watchlist",
+                            message: "Item does not exist in Collection",
+                            duration: 1000,
                         });
+                        that.$modal.close();
                     }
                 }).catch(function () {
-                    that.$notify({
-                        group: 'notifications',
-                        type: 'error',
-                        title: 'Trakt error',
-                        text: 'Could not complete action'
+                    that.$feedback.error({
+                        title: "Trakt error",
+                        message: "Could not complete action",
+                        duration: 1000,
                     });
+                    that.$modal.close();
                 });
 
                 this .viewMenu = false; 
@@ -188,31 +197,4 @@
 </script>
 
 <style lang="scss">
-    #right-click-menu{
-        background: #FAFAFA;
-        border: 1px solid #BDBDBD;
-        box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
-        display: block;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        position: fixed;
-        width: 250px;
-        z-index: 999999;
-    }
-
-    #right-click-menu li {
-        border-bottom: 1px solid #E0E0E0;
-        margin: 0;
-        padding: 5px 35px;
-    }
-
-    #right-click-menu li:last-child {
-        border-bottom: none;
-    }
-
-    #right-click-menu li:hover {
-        background: #1E88E5;
-        color: #FAFAFA;
-    }
 </style>

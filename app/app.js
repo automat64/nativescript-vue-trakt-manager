@@ -7,13 +7,15 @@ import store from './store'
 import router from './router'
 import RadListView from 'nativescript-ui-listview/vue';
 import RadSideDrawer from 'nativescript-ui-sidedrawer/vue';
-
+import { Feedback, FeedbackType } from "nativescript-feedback";
+              
 Vue.config.silent = false;
 
 //Vue.use(VueDevtools, { host: '192.168.1.2' })
 Vue.use(VueDevtools);
 Vue.use(RadListView);
 Vue.use(RadSideDrawer);
+Vue.prototype.$feedback = new Feedback()
 // Vue.registerElement('RadSideDrawer', () => require('nativescript-ui-sidedrawer').RadSideDrawer)
 // Vue.registerElement('RadListView', () => require('nativescript-ui-listview').RadListView)
 

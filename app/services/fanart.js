@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'axios/dist/axios';
 
 export default class Fanart {
     constructor() {
