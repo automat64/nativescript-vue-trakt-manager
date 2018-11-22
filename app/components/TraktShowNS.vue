@@ -70,6 +70,7 @@
                           
                         that.$store.commit('lists/updateHdtvList',[that.show.ids.tvdb,response.data.hdtvlogo[0].url]);
                         that.$store.commit('lists/updateBackgroundList',[that.show.ids.tvdb,response.data.showbackground]);
+                        that.$store.commit('lists/updatePosterList',[that.show.ids.tvdb,response.data.tvposter]);
 
                     }).catch(function (error) {
                         console.log(error);

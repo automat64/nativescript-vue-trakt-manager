@@ -26,13 +26,13 @@ const mutations = {
         state.traktLists[newData[0]].splice(index, 1);
     },
     updateHdtvList (state, newData) {
-        //console.log("updated list for "+newData[0]+" with "+newData[1])
         state.photoLists['hdtvList'][newData[0]]=newData[1];
     },
+    updatePosterList (state, newData) {
+        state.photoLists['posterList'][newData[0]]=newData[1];
+    },
     updateBackgroundList (state, newData) {
-        //console.log("updated background list for "+newData[0]+" with "+newData[1])
-        state.photoLists['backgroundList'][newData[0]]=newData[1];
-        //console.log(state.photoLists['backgroundList']);
+        state.photoLists['backgroundList'][newData[0]]=newData[1].slice(0,5);
     },
 }
 
