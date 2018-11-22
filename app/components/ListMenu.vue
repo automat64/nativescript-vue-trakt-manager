@@ -6,7 +6,6 @@
             <Button v-if="inWatchlist == true"  @tap="removeFromWatchlist" text="Remove from Watchlist"/>
             <Button v-if="inCollection == false"  @tap="addToCollection" text="Add to Collection"/>
             <Button v-if="inCollection == true"  @tap="removeFromCollection" text="Remove from Collection"/>
-            <Button @tap="$modal.close" text="close me"/>
         </StackLayout>
     </Page>
 </template>

@@ -68,7 +68,8 @@
                         if (response.data.tvposter) that.show.poster = response.data.tvposter[0].url;
                         if (response.data.showbackground) that.show.background = response.data.showbackground[0].url;
                           
-                        that.$store.commit('lists/updatePhoto',[that.show.ids.tvdb,response.data.hdtvlogo[0].url]);
+                        that.$store.commit('lists/updateHdtvList',[that.show.ids.tvdb,response.data.hdtvlogo[0].url]);
+                        that.$store.commit('lists/updateBackgroundList',[that.show.ids.tvdb,response.data.showbackground]);
 
                     }).catch(function (error) {
                         console.log(error);

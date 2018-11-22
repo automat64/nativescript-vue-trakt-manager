@@ -8,6 +8,7 @@ import router from './router'
 import RadListView from 'nativescript-ui-listview/vue';
 import RadSideDrawer from 'nativescript-ui-sidedrawer/vue';
 import { Feedback, FeedbackType } from "nativescript-feedback";
+import { Carousel, CarouselItem } from "nativescript-carousel";
               
 Vue.config.silent = false;
 
@@ -18,6 +19,8 @@ Vue.use(RadSideDrawer);
 Vue.prototype.$feedback = new Feedback()
 // Vue.registerElement('RadSideDrawer', () => require('nativescript-ui-sidedrawer').RadSideDrawer)
 // Vue.registerElement('RadListView', () => require('nativescript-ui-listview').RadListView)
+Vue.registerElement("Carousel", () => require("nativescript-carousel").Carousel); 
+Vue.registerElement("CarouselItem", () => require("nativescript-carousel").CarouselItem);
 
 new Vue({
     store,

@@ -5,9 +5,21 @@
                 <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" @tap="$navigateBack"/>
                 <ActionItem @tap="openMenu" android.systemIcon="ic_menu_moreoverflow_normal_holo_light" android.position="actionBar" />
             </ActionBar>
-        <DockLayout  backgroundColor="#eee">
-            <TextView editable="false" :text="show.overview" />
-        </DockLayout >
+        <StackLayout  backgroundColor="#eee">
+            
+           <StackLayout>
+                <Carousel height="230" width="100%" indicatorColor="#fff000" finite="true" bounce="false" showIndicator="true" verticalAlignment="top" android:indicatorAnimation="swap" color="white"> 
+                    <CarouselItem v-for="item in this.$store.state.lists.photoLists['backgroundList'][this.show.ids.tvdb]" :key="item.id">
+                            <!-- Shows the list item label in the default color and style. -->
+                            <!-- <Label text="Slide 4" backgroundColor="#50000000" horizontalAlignment="center"/> -->
+                        <Image  :src="item.url" stretch="aspectFit" />
+                    </CarouselItem>
+                </Carousel>
+            </StackLayout>
+            <StackLayout>
+                <TextView editable="false" :text="show.overview" width="100%"/>    
+            </StackLayout>
+        </StackLayout >
     </Page>
 </template>
 
@@ -20,6 +32,18 @@
             return {
                 viewDetails: false
             }
+        },
+        computed: {
+            cssProps() { 
+                return {
+                    'background-image': 'url('+ this.show.background +')',
+                    'background-size': 'cover',
+                    'opacity' :'1'
+                }
+            }
+        },
+        mounted: function () {
+            console.log(this.$store.state.lists.photoLists['backgroundList'][this.show.ids.tvdb])
         },
         methods: {
             readableGenres: function () {
@@ -36,15 +60,7 @@
                 this.$showModal(ListMenu, { props: { show: this.show }});
             }
         },
-        computed: {
-            cssProps() { 
-                return {
-                    'background-image': 'url('+ this.show.background +')',
-                    'background-size': 'cover',
-                    'opacity' :'1'
-                }
-            }
-        },
+        
         components: {
             ListMenu
         }

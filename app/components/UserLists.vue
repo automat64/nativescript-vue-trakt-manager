@@ -53,7 +53,7 @@
             getTraktLists: function() {
                 let that = this;
 
-                if (this.$store.state.lists.traktLists['collectionList'].length==0) {
+                if (this.$store.state.lists.traktLists['collectionList']!=undefined && this.$store.state.lists.traktLists['collectionList'].length==0) {
                     this.$store.state.services.trakt.userList('collection').then( function (response) {
                         that.$store.commit('lists/updateList',['collectionList',response]);
                     })
@@ -62,7 +62,7 @@
                     });
                 }
 
-                if (this.$store.state.lists.traktLists['watchList'].length==0) {
+                if (this.$store.state.lists.traktLists['watchList']!=undefined && this.$store.state.lists.traktLists['watchList'].length==0) {
                     this.$store.state.services.trakt.userList('watchlist').then( function (response) {
                         that.$store.commit('lists/updateList',['watchList',response]);
                     })

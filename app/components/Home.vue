@@ -55,7 +55,7 @@
         methods: {
             getTraktLists: function() {
                 let that = this;
-                if (this.$store.state.lists.traktLists['trendingList'].length==0) {
+                if (this.$store.state.lists.traktLists['trendingList']!=undefined && this.$store.state.lists.traktLists['trendingList'].length==0) {
                     this.$store.state.services.trakt.traktList('trending').then( function (response) {
                         that.$store.commit('lists/updateList',['trendingList',response]);
                     })
@@ -64,7 +64,7 @@
                     });
                 }
 
-                if (this.$store.state.lists.traktLists['popularList'].length==0) {
+                if (this.$store.state.lists.traktLists['popularList']!=undefined && this.$store.state.lists.traktLists['popularList'].length==0) {
                     this.$store.state.services.trakt.traktList('popular').then( function (response) {
                         that.$store.commit('lists/updateList',['popularList',response]);
                     })
@@ -73,7 +73,7 @@
                     });
                 }
 
-                if (this.$store.state.lists.traktLists['recommendedList'].length==0) {
+                if (this.$store.state.lists.traktLists['recommendedList']!=undefined && this.$store.state.lists.traktLists['recommendedList'].length==0) {
                     this.$store.state.services.trakt.recommendations().then( function (response) {
                         that.$store.commit('lists/updateList',['recommendedList',response]);
                     })
