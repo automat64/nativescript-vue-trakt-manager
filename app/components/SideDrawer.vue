@@ -6,7 +6,7 @@
         <Label class="drawer-item" text="User Lists"  @tap="gotoUserLists()"/>
         <Label class="drawer-item" text="Progress"/>
         <Label class="drawer-item" text="Calendar"/>
-        <Label class="drawer-item" text="Search"/>
+        <Label class="drawer-item" text="Search"  @tap="gotoSearch()"/>
         <Label class="drawer-item" text="Settings"  @tap="gotoSettings()"/>
     </StackLayout>
 </template>

@@ -18,5 +18,8 @@ export default {
         gotoTraktLists: function() {
             this.$navigateTo(this.$routes.Home);
         },
+        gotoSearch: function() {
+            this.$navigateTo(this.$routes.Search);
+        },
     }
   }
