@@ -3,7 +3,7 @@
         <RadListView ref="listView" :items="traktList">
             <v-template>
             <StackLayout orientation="vertical">
-                <TraktShowNS  :show="item"></TraktShowNS>
+                <TraktShowNS :show="item"></TraktShowNS>
             </StackLayout>
             </v-template>
         </RadListView>

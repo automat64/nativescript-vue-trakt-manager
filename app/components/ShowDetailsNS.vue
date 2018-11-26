@@ -8,7 +8,7 @@
         <StackLayout>
             
            <StackLayout>
-                <Carousel height="235" width="100%" showIndicator ="false" finite="false" bounce="false" verticalAlignment="top" android:indicatorAnimation="swap" color="white"> 
+                <Carousel v-if="hasBackgrounds" height="235" width="100%" showIndicator ="false" finite="false" bounce="false" verticalAlignment="top" android:indicatorAnimation="swap" color="white"> 
                     <CarouselItem v-for="item in this.$store.state.lists.photoLists['backgroundList'][this.show.ids.tvdb]" :key="item.id">
                             <!-- Shows the list item label in the default color and style. -->
                             <!-- <Label text="Slide 4" backgroundColor="#50000000" horizontalAlignment="center"/> -->
@@ -18,9 +18,9 @@
             </StackLayout>
             <Label id="show-title" textWrap="true" :text="show.title" width="100%"/>
             <ScrollView height="100%" width="100%">
-                <GridLayout columns="200, *" rows="200,*" id="show-details">
-                    <StackLayout row="0" col="0">
-                        <Image  :src="this.$store.state.lists.photoLists['posterList'][this.show.ids.tvdb][0].url" stretch="aspectFit" />
+                <GridLayout columns="200, *" :rows="showPosters ? '200,*' : '0,*'" id="show-details">
+                    <StackLayout v-if="hasPosters" row="0" col="0">
+                        <Image :src="this.$store.state.lists.photoLists['posterList'][this.show.ids.tvdb][0].url" stretch="aspectFit" />
                     </StackLayout>
                     <StackLayout row="0" col="1">
                         <Label textWrap="true" :text="readableGenres()" width="100%"/>    
@@ -58,10 +58,19 @@
                     'background-size': 'cover',
                     'opacity' :'1'
                 }
+            },
+            hasPosters () {
+                if (this.$store.state.lists.photoLists['posterList'][this.show.ids.tvdb]!=undefined) return true;
+                else return false;
+            },
+            hasBackgrounds () {
+                if (this.$store.state.lists.photoLists['backgroundList'][this.show.ids.tvdb]!=undefined) return true;
+                else return false;
             }
+
         },
         mounted: function () {
-            console.log(this.$store.state.lists.photoLists['posterList'][this.show.ids.tvdb][0].url)
+            
         },
         methods: {
             readableGenres: function () {
